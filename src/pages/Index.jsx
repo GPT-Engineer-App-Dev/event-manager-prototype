@@ -4,7 +4,7 @@ import { useEvents, useVenues, useComments } from "../integrations/supabase/inde
 const Index = () => {
   const { data: events, isLoading: eventsLoading, isError: eventsError } = useEvents();
   const { data: venues, isLoading: venuesLoading, isError: venuesError } = useVenues();
-  const { data: comments, isLoading: commentsLoading, isError: commentsError } = useComments();
+  
 
   return (
     <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
@@ -21,9 +21,7 @@ const Index = () => {
             <Text>{event.date}</Text>
             <Text>Venue: {event.venue?.name}</Text>
             <Text>Comments:</Text>
-            {commentsLoading && <Spinner />}
-            {commentsError && <Alert status="error"><AlertIcon />Failed to load comments</Alert>}
-            {comments && comments.filter(comment => comment.event_id === event.id).map(comment => (
+            {event.comments?.map(comment => (
               <Text key={comment.id} pl={4}>- {comment.content}</Text>
             ))}
           </VStack>
